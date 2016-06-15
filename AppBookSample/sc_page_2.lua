@@ -35,7 +35,7 @@ local function goNextPage()
     composer.gotoScene( "sc_page_3", options)
 end
 
-local function moveCona( event )
+local function moveConaLitener( event )
     local target = event.target
     local phase  = event.phase
 
@@ -110,8 +110,7 @@ function scene:create( event )
     img_cona.alpha = 1
     sceneGroup:insert( img_cona )   
 
-    img_cona:addEventListener( "touch", moveCona )
-
+    img_cona:addEventListener( "touch", moveConaLitener )
     
     local filePath        = system.pathForFile( "particle_params.json" )
     local f               = io.open( filePath, "r" )
@@ -120,7 +119,7 @@ function scene:create( event )
     
     particle_emitter   = display.newEmitter( particle_params )    
     particle_emitter.x = display.contentCenterX
-    particle_emitter.y = display.contentCenterY    
+    particle_emitter.y = -100  
     sceneGroup:insert( particle_emitter )
 
 end
@@ -131,9 +130,10 @@ function scene:show( event )
     local phase = event.phase
     
     if ( phase == "will" ) then        
+        particle_emitter:start()
         channel_snd_back_music = audio.play( snd_back_music, { channel=1, loops=-1, fadein=5000 } )
     elseif ( phase == "did" ) then        
-        particle_emitter:start()
+        
     end
 end
 

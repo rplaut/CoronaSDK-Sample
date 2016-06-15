@@ -63,7 +63,7 @@ function scene:create( event )
     txt_madeby:setFillColor( 0, 0, 0 )
     scroll_view:insert( txt_madeby )
 
-    local str_content  = "자료준비,총괄 - 정자연\n\n디자인,개발 - 김성우\n\nLua강의 - 전영대\n\n개발,강의 - 김상호\n\n초상권 제공 - 코나\n\n그룹장 - 원강민\n\nBGM제공 - 바야바\n\n효과음 제공 - 김상호\n\n\n디자인 제공 - 김성우\n\n모임공간 제공 - MicroSoft\n\n식사제공 - 김성우\n\n도움1 - 노트북\n\n도움2 - 데스크탑\n\n도움3 - Corona with Lua"
+    local str_content  = "자료준비,총괄 - 정자연\n\n디자인,개발 - 김성우\n\nLua강의 - 전영대\n\n개발,강의 - 김상호\n\n초상권 제공 - 코나\n\n그룹장 - 원강민\n\nBGM제공 - 바야바\n\n효과음 제공 - 김상호\n\n디자인 제공 - 김성우\n\n모임공간 제공 - MicroSoft\n\n식사제공 - 김성우\n\n도움1 - 노트북\n\n도움2 - 데스크탑\n\n도움3 - Corona with Lua"
 
     local txt_content   = display.newText{
         text     = str_content,

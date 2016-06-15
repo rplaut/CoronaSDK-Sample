@@ -43,6 +43,7 @@ function scene:show( event )
                 time   = 600  
             }
             composer.gotoScene( "sc_main_menu", options )
+            
         end
 
         timer.performWithDelay( 5000, goMainMenu, 1 )
