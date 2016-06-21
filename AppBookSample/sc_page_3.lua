@@ -163,7 +163,7 @@ function scene:show( event )
     
     if ( phase == "will" ) then  
         physics.start()      
-        channel_back_music = audio.play( snd_back_music, { channel=1, loops=-1, fadein=5000 } )
+        channel_back_music = audio.play( snd_back_music, { channel=1, loops=-1, fadein=1000 } )
     elseif ( phase == "did" ) then        
         
     end
