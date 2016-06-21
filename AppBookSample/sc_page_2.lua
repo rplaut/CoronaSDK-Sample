@@ -4,13 +4,22 @@ local json     = require "json"
 
 local scene = composer.newScene()
 
-local snd_back_music = audio.loadSound("sounds/snd_back_1.mp3")
+--mp3파일 로드
+local snd_back_music = audio.loadStream("sounds/snd_back_1.mp3") -- 배경음악, 채널설정 불가
+-- local snd_back_music = audio.loadSound("sounds/snd_back_1.mp3") -- 짧고 자주 재생되는 사운드( 총소리, 칼소리, 점프소리 ), 채널설정 가능
+
+--파티클 설정값 가져오기
+local filePath          = system.pathForFile( "particle_property.json" )
+local f                 = io.open( filePath, "r" )
+local particle_data     = f:read( "*a" ); f:close()
+local particle_property = json.decode( particle_data )
 
 local img_bg, img_cona
 local btn_previous_page, btn_next_page, btn_main_page
 local particle_emitter
 local channel_snd_back_music
 
+--메인 페이지로 이동
 local function goMainPage()
     local options = {
         effect = "zoomOutIn",
@@ -19,6 +28,7 @@ local function goMainPage()
     composer.gotoScene( "sc_main_menu", options)
 end
 
+--이전 페이지로 이동
 local function goPreviousPage()
     local options = {
         effect = "slideRight",
@@ -27,6 +37,7 @@ local function goPreviousPage()
     composer.gotoScene( "sc_page_1", options)
 end
 
+--다음 페이지로 이동
 local function goNextPage()
     local options = {
         effect = "slideLeft",
@@ -35,7 +46,7 @@ local function goNextPage()
     composer.gotoScene( "sc_page_3", options)
 end
 
-local function moveConaLitener( event )
+local function conaTouchListener( event )
     local target = event.target
     local phase  = event.phase
 
@@ -108,20 +119,13 @@ function scene:create( event )
     img_cona.x     = display.contentCenterX   
     img_cona.y     = display.contentCenterY
     img_cona.alpha = 1
-    sceneGroup:insert( img_cona )   
+    sceneGroup:insert( img_cona )  
+    img_cona:addEventListener( "touch", conaTouchListener )--코나에게 터치 리스너 달기
 
-    img_cona:addEventListener( "touch", moveConaLitener )
-    
-    local filePath        = system.pathForFile( "particle_params.json" )
-    local f               = io.open( filePath, "r" )
-    local particle_data   = f:read( "*a" ); f:close()
-    local particle_params = json.decode( particle_data )
-    
-    particle_emitter   = display.newEmitter( particle_params )    
+    particle_emitter   = display.newEmitter( particle_property )    
     particle_emitter.x = display.contentCenterX
     particle_emitter.y = -100  
     sceneGroup:insert( particle_emitter )
-
 end
 
 
@@ -129,9 +133,11 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
     
-    if ( phase == "will" ) then        
+    if ( phase == "will" ) then
+        --파티클 시작
         particle_emitter:start()
-        channel_snd_back_music = audio.play( snd_back_music, { channel=1, loops=-1, fadein=5000 } )
+        --백그라운드 뮤직 플레이
+        channel_snd_back_music = audio.play( snd_back_music, { loops = -1 } )
     elseif ( phase == "did" ) then        
         
     end
@@ -139,11 +145,13 @@ end
 
 function scene:hide( event )
     local sceneGroup = self.view
-    local phase = event.phase
+    local phase      = event.phase
 
     if ( phase == "will" ) then        
+        --파티클 중지
         particle_emitter:stop()
-        audio.stop( channel_snd_back_music )        
+        --오디오 중지
+        audio.stop( channel_snd_back_music )
     elseif ( phase == "did" ) then        
         
     end
@@ -151,7 +159,9 @@ end
 
 function scene:destroy( event )
     local sceneGroup = self.view
-    
+    --오디오는 필요없을 경우 반드시 메모리 해제를 해야함
+    audio.stop( channel_snd_back_music ); channel_snd_back_music = nil
+    audio.dispose( snd_back_music ); snd_back_music = nil
 end
 
 scene:addEventListener( "create", scene )

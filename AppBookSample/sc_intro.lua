@@ -6,6 +6,10 @@ local scene = composer.newScene()
 
 local img_bg, img_cona
 
+local function goMainMenu()    
+    composer.gotoScene( "sc_main_menu" )            
+end
+
 function scene:create( event )
     local sceneGroup = self.view    
 
@@ -39,18 +43,9 @@ function scene:show( event )
 
         --Fade out 효과
         transition.to( img_bg, { delay = 4000, time = 1000, alpha = 0  } )
-        transition.to( img_cona, { delay = 4000, time = 1000, alpha = 0  } )
+        transition.to( img_cona, { delay = 4000, time = 1000, alpha = 0  } )        
 
-        local function goMainMenu()
-            local options = {
-                effect = "zoomOutInFade",
-                time   = 600  
-            }
-            composer.gotoScene( "sc_main_menu", options )
-            
-        end
-
-        --5초 되에 goMainMenu 실행
+        --5초 뒤에 goMainMenu 실행
         timer.performWithDelay( 5000, goMainMenu, 1 )
     end
 end

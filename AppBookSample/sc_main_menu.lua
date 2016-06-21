@@ -1,13 +1,13 @@
 local composer = require( "composer" )
 local widget   = require( "widget" )
 
-
 local scene = composer.newScene()
 
 local img_title, img_bg
 local btn_start, btn_end
 
 local function goFirstPage()
+    -- 참조: https://docs.coronalabs.com/daily/api/library/composer/gotoScene.html
     local options = {
         effect = "slideLeft",
         time   = 600  
@@ -16,6 +16,7 @@ local function goFirstPage()
 end
 
 local function exitApp()
+
     local function listener( event )
         if ( event.action == "clicked" ) then            
             if ( event.index == 1 ) then                
@@ -23,23 +24,27 @@ local function exitApp()
             end
         end
     end
+
     native.showAlert( "CONA", "정말 종료 하시겠어요?", { "네", "아니요" }, listener )
 end
 
 function scene:create( event )
     local sceneGroup = self.view
 
+    --백그라운드 이미지 생성
     img_bg   = display.newImage( "images/main_bg.png" )
     img_bg.x = display.contentCenterX 
     img_bg.y = display.contentCenterY
     img_bg:setFillColor( 1, 1, 1 )
     sceneGroup:insert( img_bg )
 
+    --타이틀 이미지 생성
     img_title   = display.newImage( "images/title_img.png" )   
     img_title.x = display.contentCenterX 
     img_title.y = display.contentCenterY
     sceneGroup:insert( img_title )
 
+    --시작버튼 생성
     btn_start = widget.newButton( {        
         width      = 400,
         height     = 100,
@@ -56,6 +61,7 @@ function scene:create( event )
     btn_start.y = display.contentCenterY + 300
     sceneGroup:insert( btn_start )
 
+    --종료버튼 생성
     btn_end = widget.newButton( {        
         width      = 400,
         height     = 100,

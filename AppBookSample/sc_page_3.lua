@@ -2,7 +2,7 @@ local composer = require( "composer" )
 local widget   = require( "widget" )
 local physics  = require( 'physics' ); --physics.setDrawMode( "hybrid" )
 
-local snd_back_music = audio.loadSound( "sounds/snd_back_2.mp3" )
+local snd_back_music = audio.loadStream( "sounds/snd_back_2.mp3" )
 local snd_cona       = audio.loadSound( "sounds/pong.wav" )
 
 physics.start()
@@ -11,7 +11,7 @@ local scene = composer.newScene()
 
 local img_bg, img_cona
 local btn_previous_page, btn_next_page, btn_main_page
-local channel_back_music
+local channel_back_music, channel_snd_eft
 
 local function goMainPage()
     local options = {
@@ -37,6 +37,7 @@ local function goNextPage()
     composer.gotoScene( "sc_page_4", options)
 end
 
+--코로나 공식 샘플에 포함된 리스너 입니다.
 function dragBody( event, params )
     local body = event.target
     local phase = event.phase
@@ -46,7 +47,7 @@ function dragBody( event, params )
         stage:setFocus( body, event.id )
         body.isFocus = true
 
-        audio.play( snd_cona, { channel = audio.findFreeChannel() } )
+        channel_snd_eft = audio.play( snd_cona, { channel = audio.findFreeChannel() } )
 
         if params and params.center then
             body.tempJoint = physics.newJoint( "touch", body, body.x, body.y )
@@ -135,6 +136,7 @@ function scene:create( event )
     img_cona:addEventListener( "touch", dragBody )
     sceneGroup:insert( img_cona )
 
+    --벽 생성( 물리적용된 코나가 화면 밖으로 빠져나가지 못하게 )
     local wall_left     = display.newRect( sceneGroup, 0, display.contentCenterY, 50, display.contentHeight )
     wall_left.isVisible = false  
     physics.addBody( wall_left, "static", { friction=0.5, bounce=0.3 } )    
@@ -173,6 +175,7 @@ function scene:hide( event )
 
     if ( phase == "will" ) then        
        audio.stop( channel_back_music )
+       audio.stop( channel_snd_eft )       
        physics.pause()
     elseif ( phase == "did" ) then        
  
@@ -181,7 +184,12 @@ end
 
 function scene:destroy( event )
     local sceneGroup = self.view
-    
+
+    --오디오는 필요없을 경우 반드시 메모리 해제를 해야함
+    audio.stop( channel_back_music ); channel_back_music = nil
+    audio.dispose( snd_back_music ); snd_back_music = nil
+    audio.stop( channel_snd_eft ); channel_snd_eft = nil
+    audio.dispose( snd_cona ); snd_cona = nil
 end
 
 scene:addEventListener( "create", scene )

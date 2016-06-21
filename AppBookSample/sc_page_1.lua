@@ -14,6 +14,7 @@ local arr_sript = {
 local img_bg, img_cona, txt_script
 local btn_previous_page, btn_next_page, btn_main_page
 
+--메인메뉴 페이지로 이동
 local function goMainPage()
     local options = {
         effect = "zoomOutIn",
@@ -22,6 +23,7 @@ local function goMainPage()
     composer.gotoScene( "sc_main_menu", options)
 end
 
+--다음페이지로 이동
 local function goNextPage()
     local options = {
         effect = "slideLeft",
@@ -30,13 +32,15 @@ local function goNextPage()
     composer.gotoScene( "sc_page_2", options)
 end
 
-local function showScript()
-
+local function updateScript()
+    --인덱스 증가
     script_index = script_index + 1
 
+    --스크립트의 갯수보다 인덱스가 작냐
     if script_index <= #arr_sript then 
-        txt_script.text = arr_sript[ script_index ]
+        txt_script.text = arr_sript[ script_index ] -- 텍스트 변경
     else
+        --참조: https://docs.coronalabs.com/daily/api/library/native/showAlert.html
         local function listener( event )
             if ( event.action == "clicked" ) then            
                 if ( event.index == 1 ) then                
@@ -45,26 +49,46 @@ local function showScript()
             end
         end
         native.showAlert( "CONA", "다음 페이지로 이동하시겠습니까?", { "네", "아니요" }, listener )
+
+        --아래와 같이 터치 유도를 할 수 있습니다
+        -- transition.blink( btn_next_page, { time=2000 } )
     end
 end
 
-local function startInit()
+local function init()
     txt_script.alpha      = 1
     img_msg_balloon.alpha = 1
 
+    --백그라운드 이미지가 터치되면 이 리스너가 호출됩니다.
     function img_bg:touch( event )
         local t     = event.target
         local phase = event.phase
 
         if event.phase == "ended" then
-            showScript()
+            updateScript()
         end
 
         return true
-
     end
 
+    --백그라운드 이미지에 터치 리스너 달기
     img_bg:addEventListener( "touch", img_bg )
+
+
+    --[[
+    --아래와 같은 방법으로도 가능합니다.    
+    local function touchListener( event )
+        local t     = event.target
+        local phase = event.phase
+
+        if event.phase == "ended" then
+            updateScript()
+        end
+
+        return true
+    end    
+    img_bg:addEventListener( "touch", touchListener )
+    ]]--
 end
 
 
@@ -137,7 +161,7 @@ function scene:show( event )
         
     elseif ( phase == "did" ) then        
         transition.to( img_cona, { delay = 1000, time = 700, x = display.contentCenterX - 100, alpha = 1, transition = easing.outBack, onComplete = function()            
-            startInit() 
+            init() 
         end  } )
     end
 end
