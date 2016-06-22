@@ -41,14 +41,14 @@ local function updateScript()
         txt_script.text = arr_sript[ script_index ] -- 텍스트 변경
     else
         --참조: https://docs.coronalabs.com/daily/api/library/native/showAlert.html
-        local function listener( event )
+        local function alertListener( event )
             if ( event.action == "clicked" ) then            
                 if ( event.index == 1 ) then                
                     goNextPage()
                 end
             end
         end
-        native.showAlert( "CONA", "다음 페이지로 이동하시겠습니까?", { "네", "아니요" }, listener )
+        native.showAlert( "CONA", "다음 페이지로 이동하시겠습니까?", { "네", "아니요" }, alertListener )
 
         --아래와 같이 터치 유도를 할 수 있습니다
         -- transition.blink( btn_next_page, { time=2000 } )
@@ -73,7 +73,6 @@ local function init()
 
     --백그라운드 이미지에 터치 리스너 달기
     img_bg:addEventListener( "touch", img_bg )
-
 
     --[[
     --아래와 같은 방법으로도 가능합니다.    

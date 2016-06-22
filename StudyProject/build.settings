@@ -1,0 +1,16 @@
+settings =
+{
+	
+	orientation =
+	{
+		default = "landscapeLeft", -- 화면의 방향을 가로로 설정
+		supported = { "landscapeRight", "landscapeLeft" }
+	},	
+	android =
+	{
+		usesPermissions =
+		{
+			"android.permission.INTERNET", -- 인터넷에 대한 권한 추가
+		},
+	},
+}

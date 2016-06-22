@@ -1,0 +1,73 @@
+{
+		"textureFileName":"heart04.png",
+		"textureImageData":"",				
+		"configName":"heart04",				
+
+		"emitterType":3,					
+		"maxParticles":200,					
+		"duration":-1,
+
+		"blendFuncSource":770,
+		"blendFuncDestination":1,
+
+		"startColorRed":1,
+		"startColorGreen":1,
+		"startColorBlue":1,
+		"startColorAlpha":0,		
+		
+		"startColorVarianceRed":1,
+		"startColorVarianceBlue":1,
+		"startColorVarianceGreen":1,		
+		"startColorVarianceAlpha":1,		
+
+		"finishColorRed":1,
+		"finishColorGreen":1,		
+		"finishColorBlue":1,
+		"finishColorAlpha":0,
+
+		"finishColorVarianceRed":1,
+		"finishColorVarianceGreen":1,
+		"finishColorVarianceBlue":1,
+		"finishColorVarianceAlpha":0,	
+
+		"startParticleSize":30,				
+		"startParticleSizeVariance":50,	
+		"finishParticleSize":10,
+		"finishParticleSizeVariance":30,
+
+		"rotationStart":0,
+		"rotationEnd":180,
+		"rotatePerSecond":360,
+		"rotatePerSecondVariance":0,
+		"rotationStartVariance":0,
+		"rotationEndVariance":0,
+
+		"minRadius":300,
+		"maxRadius":1000,
+		"minRadiusVariance":0,
+		"maxRadiusVariance":0,		
+
+		"sourcePositionVariancex":1200,
+		"sourcePositionVariancey":10,
+		
+		"particleLifespan":0.5,
+		"particleLifespanVariance":3,
+		
+		"radialAcceleration":100,
+		"radialAccelVariance":200,
+
+		"speed":400,
+		"speedVariance":0,
+
+		"angle":-270,
+		"angleVariance":-0,		
+
+		"gravityx":0,
+		"gravityy":20,
+
+		"tangentialAcceleration":-0,
+		"tangentialAccelVariance":-0,
+		
+		"yCoordFlipped":-1,
+	
+}
